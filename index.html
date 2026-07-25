@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#123524" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="KickStart" />
+  <meta name="description" content="Offline youth soccer practice planning and player development tracking." />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icon-192.svg" />
+  <link rel="icon" href="icon-192.svg" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>KickStart Coach</title>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">U9 SOCCER COACHING</p>
+      <h1>KickStart Coach</h1>
+    </div>
+    <div class="top-actions">
+      <button id="installBtn" class="ghost install" hidden>Install app</button>
+      <button id="backupBtn" class="ghost">Backup</button>
+    </div>
+  </header>
+
+  <nav class="tabs" aria-label="Main navigation">
+    <button class="tab active" data-view="dashboard">Home</button>
+    <button class="tab" data-view="players">Players</button>
+    <button class="tab" data-view="practice">Practice</button>
+    <button class="tab" data-view="grading">Grades</button>
+    <button class="tab" data-view="attendance">Attendance</button>
+    <button class="tab" data-view="gameday">Game Day</button>
+  </nav>
+
+  <main>
+    <section id="dashboard" class="view active"></section>
+    <section id="players" class="view"></section>
+    <section id="practice" class="view"></section>
+    <section id="grading" class="view"></section>
+    <section id="attendance" class="view"></section>
+    <section id="gameday" class="view"></section>
+  </main>
+
+  <dialog id="playerDialog">
+    <form method="dialog" id="playerForm" class="dialog-card">
+      <div class="dialog-heading">
+        <h2 id="playerDialogTitle">Add player</h2>
+        <button value="cancel" class="icon-button" aria-label="Close">×</button>
+      </div>
+      <input type="hidden" id="playerId" />
+      <label>Player name<input id="playerName" required maxlength="40" placeholder="Player name" /></label>
+      <label>Jersey number<input id="jerseyNumber" type="number" min="0" max="99" placeholder="9" /></label>
+      <label>Preferred position
+        <select id="position">
+          <option>Not assigned</option><option>Goalkeeper</option><option>Defender</option><option>Midfielder</option><option>Forward</option>
+        </select>
+      </label>
+      <label>Coach notes<textarea id="playerNotes" rows="3" placeholder="Strengths, goals, reminders..."></textarea></label>
+      <div class="dialog-actions">
+        <button value="cancel" class="ghost dark">Cancel</button>
+        <button id="savePlayerBtn" value="default" class="primary">Save player</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dataDialog">
+    <div class="dialog-card">
+      <div class="dialog-heading"><h2>Backup & restore</h2><button class="icon-button" onclick="dataDialog.close()">×</button></div>
+      <p class="muted">Export your team data before changing phones. Import it later on any device.</p>
+      <button class="primary" onclick="exportData()">Download backup</button>
+      <label class="file-button">Import backup<input id="importFile" type="file" accept="application/json" /></label>
+      <button class="danger-button" onclick="resetData()">Delete all app data</button>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
