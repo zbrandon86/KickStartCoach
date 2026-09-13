@@ -4,19 +4,37 @@ const uid = () => crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Mat
 const drillBank = [
   ['Dynamic Ball Warm-Up','Warm-Up','Low',8,'One ball per player','Toe taps, foundations, sole rolls, and free dribbling in a grid.',['Light feet','Both feet','Look up often']],
   ['Soccer Tag','Warm-Up','Medium',8,'Cones, optional balls','Tag inside a grid. Add a ball for each player after the first round.',['Change direction','Stay aware','Keep moving']],
+  ['Body Part Dribble','Warm-Up','Low',7,'One ball per player','Players dribble freely while the coach calls a body part to stop the ball with.',['Small touches','Head up','React fast']],
+  ['Dynamic Stretch Circuit','Warm-Up','Low',7,'Cones','Skips, lunges, heel flicks, and side shuffles between two lines.',['Move through full range','Stay tall','Control the landing']],
   ['Red Light, Green Light','Dribbling','Low',10,'One ball per player, cones','Players dribble on green, slow on yellow, and stop the ball on red.',['Close touches','Use both feet','Head up']],
   ['Gate Dribbling Challenge','Dribbling','Medium',12,'Cones, one ball per player','Players score by dribbling through as many cone gates as possible.',['Accelerate away','Change direction','Avoid traffic']],
   ['Sharks and Minnows','Dribbling','High',12,'Balls, cones, pinnies','Minnows cross the field while sharks try to knock balls away.',['Shield the ball','Change speed','Recover quickly']],
+  ['Cone Slalom Relay','Dribbling','Medium',10,'Cones, one ball per player','Players dribble through a slalom and race back to tag the next teammate.',['Touch every step','Use outside of foot','Accelerate past the last cone']],
+  ['Shrinking Island','Dribbling','High',12,'Cones, balls','Players dribble inside a grid that gets smaller every round without losing control.',['Shield with your body','Change direction early','Keep the ball close']],
   ['Partner Passing Gates','Passing','Low',12,'One ball per pair, cones','Pairs pass through gates and move to a new gate after each success.',['Plant foot beside ball','Inside of foot','Receive across body']],
   ['Passing Square','Passing','Medium',15,'Cones, balls','Players pass around a square and follow their pass.',['Check shoulder','First touch forward','Call names']],
   ['3v1 Keep Away','Passing','High',15,'Cones, pinnies, ball','Three attackers keep possession from one defender. Rotate frequently.',['Create angles','Move after passing','Decide quickly']],
+  ['Long and Short Relay','Passing','Medium',12,'Cones, balls','Pairs alternate a short pass and a longer driven pass between marked zones.',['Plant foot beside ball','Weight the pass','Follow through to target']],
+  ['Wall Pass Gates','Passing','Medium',12,'Cones, pinnies, balls','An attacker plays a give-and-go off a neutral player to get through a gate.',['Pass and move','Call for the return','First touch forward']],
   ['Turn and Escape','Ball Control','Medium',12,'Balls, cones','Dribble to a cone, turn, then accelerate away.',['Low body position','Protect ball','Explode away']],
+  ['First Touch Circle','Ball Control','Low',10,'Balls, cones','Players receive a served ball and take one clean touch into space before returning it.',['Cushion the ball','Touch into space','Get side-on early']],
+  ['Trap and Turn Relay','Ball Control','Medium',12,'Cones, balls','Receive a pass at a cone, control it, turn, and dribble back to the line.',['Kill the ball first','Turn away from pressure','Look before you receive']],
+  ['Juggling Challenge','Ball Control','Low',8,'One ball per player','Players count juggles, restart on a drop, and try to beat their own record.',['Toes up','Small soft touches','Stay balanced']],
+  ['Throw, Trap, Pass','Ball Control','Medium',12,'One ball per pair','One partner throws to chest, thigh, or foot and the other settles it down and passes back.',['Pick the surface early','Relax on contact','Settle it in one touch']],
   ['Dribble and Finish','Shooting','Medium',12,'Goal, cones, balls','Dribble through a short pattern and finish on goal.',['Final touch out','Plant foot at target','Accuracy first']],
   ['Numbers Shooting Game','Shooting','High',15,'Goal, balls, pinnies','Coach calls a number and matching players race to win the ball and shoot.',['Shoot when open','Follow rebounds','Compete safely']],
+  ['Shooting Ladder','Shooting','Medium',12,'Goal, balls, cones','Players shoot from three marked distances and track how many they hit.',['Head steady','Strike through the middle','Follow your shot in']],
+  ['Cross and Finish','Shooting','High',15,'Goal, balls, cones','A wide player delivers across the box for a runner to finish first time.',['Attack the near post','Get across your defender','Redirect, do not blast']],
+  ['Turn and Shoot','Shooting','Medium',12,'Goal, balls, cones','Receive with back to goal, turn quickly, and shoot before a count of three.',['Check your shoulder','Turn on the first touch','Shoot low and early']],
   ['Defending the Castle','Defending','Medium',12,'Cones, balls','One player protects a cone while another tries to knock it down.',['Close under control','Side-on stance','Do not stab']],
   ['1v1 to Two Goals','Defending','High',15,'Cones, pinnies, balls','Attacker can score in either small goal, forcing balanced defending.',['Stay goal side','Slow attacker','Change direction']],
+  ['Shadow Defending','Defending','Low',10,'Cones, pinnies','A defender mirrors an attacker moving side to side without tackling.',['Side-on stance','Small quick steps','Stay an arm away']],
+  ['Recovery Race','Defending','High',12,'Cones, balls, goal','The defender starts a step behind and must get goal side before the attacker shoots.',['Sprint the first three steps','Run the shortest line','Force them wide']],
+  ['2v2 Defend the Zone','Defending','High',15,'Cones, pinnies, balls','Two defenders protect a zone against two attackers, rotating first and second defender roles.',['One pressures, one covers','Talk to each other','Delay and squeeze']],
   ['End-Zone Soccer','Game','Medium',15,'Cones, pinnies, ball','Score by passing to a teammate who controls the ball in an end zone.',['Find space','Pass with pace','Defend together']],
-  ['4v4 Small-Sided Game','Game','High',20,'Cones, pinnies, small goals','Play short 4v4 rounds with simple conditions tied to the theme.',['Spread out','Transition quickly','Be creative']]
+  ['4v4 Small-Sided Game','Game','High',20,'Cones, pinnies, small goals','Play short 4v4 rounds with simple conditions tied to the theme.',['Spread out','Transition quickly','Be creative']],
+  ['3v3 Four Goals','Game','High',15,'Cones, pinnies, balls','Small teams can attack either of two goals, which forces them to switch play.',['Look for the open goal','Switch when blocked','Spread wide']],
+  ['Possession Scrimmage','Game','Medium',15,'Cones, pinnies, ball','Teams earn a point for six passes in a row as well as for goals.',['Find the open player','Move after passing','Keep it simple']]
 ].map(([name,category,intensity,minutes,equipment,description,points]) => ({id:uid(),name,category,intensity,minutes,equipment,description,points}));
 
 const samplePlayers = [
@@ -80,26 +98,30 @@ function generatePractice(){
  const playerCount=Number(document.getElementById('playerCount').value)||state.players.length||8;
  const pool=[...drillBank];
  const shuffle=a=>a.sort(()=>Math.random()-.5);
- const warm=shuffle(pool.filter(d=>d.category==='Warm-Up'))[0];
- const game=shuffle(pool.filter(d=>d.category==='Game'))[0];
+ /* Drills from the session still on screen go to the back of every queue, so
+    a coach working the same focus week after week does not see repeats. */
+ const lastUsed=new Set(state.practicePlan.map(d=>d.name));
+ const fresh=a=>shuffle(a).sort((x,y)=>(lastUsed.has(x.name)?1:0)-(lastUsed.has(y.name)?1:0));
+ const warm=fresh(pool.filter(d=>d.category==='Warm-Up'))[0];
+ const game=fresh(pool.filter(d=>d.category==='Game'))[0];
  let focused,message='Practice generated';
  if(focus===GAME_FOCUS){
   const weights=focusWeights();
   const ranked=rankedFocus();
-  if(!ranked.length){focus='Balanced';message='No game notes yet \u2014 built a balanced session';focused=shuffle(pool.filter(d=>!['Warm-Up','Game'].includes(d.category)))}
+  if(!ranked.length){focus='Balanced';message='No game notes yet \u2014 built a balanced session';focused=fresh(pool.filter(d=>!['Warm-Up','Game'].includes(d.category)))}
   else{
    /* Rotate through the flagged areas so tied focuses each get a drill, while a
       heavier focus earns extra slots in later rounds. */
    const queues={},order=[];
-   ranked.forEach(([cat])=>{queues[cat]=shuffle(pool.filter(d=>d.category===cat))});
+   ranked.forEach(([cat])=>{queues[cat]=fresh(pool.filter(d=>d.category===cat))});
    for(let round=0;round<ranked[0][1];round++)for(const [cat,w] of ranked)if(round<w)order.push(cat);
    focused=[];
    for(const cat of order){const d=queues[cat].shift();if(d)focused.push(d)}
    ranked.forEach(([cat])=>focused.push(...queues[cat]));
    message=`Practice built around ${ranked.slice(0,2).map(([t])=>t).join(' and ')}`;
   }
- }else focused=shuffle(pool.filter(d=>focus==='Balanced'||d.category===focus));
- const others=shuffle(pool.filter(d=>!['Warm-Up','Game'].includes(d.category)&&!focused.includes(d)));
+ }else focused=fresh(pool.filter(d=>focus==='Balanced'||d.category===focus));
+ const others=fresh(pool.filter(d=>!['Warm-Up','Game'].includes(d.category)&&!focused.includes(d)));
  const plan=[warm];let total=warm.minutes;
  for(const d of [...focused,...others]){
   if(total+d.minutes+game.minutes<=duration){plan.push({...d,description:`${d.description} Recommended for about ${playerCount} players.`});total+=d.minutes}
